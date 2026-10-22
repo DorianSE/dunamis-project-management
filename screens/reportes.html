@@ -1,0 +1,67 @@
+<div class="Report">
+<h3>Reportes y Estadísticas</h3>
+<p>Genere reportes automáticos del avance de los proyectos, costos y uso de recursos.</p>
+
+<label for="tipoReporte">Seleccione tipo de reporte:</label>
+<select id="tipoReporte">
+  <option value="">Seleccione un reporte</option>
+  <option value="costos">Reporte de Costos</option>
+  <option value="usuarios">Reporte de Usuarios</option>
+  <option value="recursos">Reporte de Recursos</option>
+  <option value="proyectos">Reporte de Proyectos</option>
+  <option value="avance">Reporte de Avance</option>
+</select>
+
+<button onclick="exportarReporte()">Exportar a Excel</button>
+<div id="mensajeExportar" class="mensaje-reporte"></div>
+
+<!-- Tablas ocultas de ejemplo para cada reporte -->
+<table id="tablaCostos" class="hidden">
+  <thead>
+    <tr><th>Proyecto</th><th>Costo Estimado</th><th>Costo Real</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Sistema Contable</td><td>₡2,500,000</td><td>₡2,300,000</td></tr>
+    <tr><td>App de Ventas</td><td>₡1,800,000</td><td>₡1,850,000</td></tr>
+    <tr><td>CRM PYMES</td><td>₡2,000,000</td><td>₡1,950,000</td></tr>
+  </tbody>
+</table>
+
+<table id="tablaUsuarios" class="hidden">
+  <thead>
+    <tr><th>Nombre</th><th>Rol</th><th>Correo</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Juan Pérez</td><td>Administrador</td><td>juan@example.com</td></tr>
+    <tr><td>Ana Gómez</td><td>Analista</td><td>ana@example.com</td></tr>
+  </tbody>
+</table>
+
+
+<table id="tablaRecursos" class="hidden">
+  <thead><tr><th>Recurso</th><th>Tipo</th><th>Cantidad</th></tr></thead>
+  <tbody>
+    <tr><td>Laptop</td><td>Tecnológico</td><td>5</td></tr>
+    <tr><td>Silla</td><td>Material</td><td>10</td></tr>
+    <tr><td>Software</td><td>Tecnológico</td><td>3</td></tr>
+  </tbody>
+</table>
+
+<table id="tablaProyectos" class="hidden">
+  <thead><tr><th>Proyecto</th><th>Estado</th><th>Responsable</th></tr></thead>
+  <tbody>
+    <tr><td>Sistema Contable</td><td>En progreso</td><td>Juan Pérez</td></tr>
+    <tr><td>App de Ventas</td><td>Finalizado</td><td>Ana Gómez</td></tr>
+    <tr><td>CRM PYMES</td><td>En espera</td><td>Carlos Ruiz</td></tr>
+  </tbody>
+</table>
+
+<table id="tablaAvance" class="hidden">
+  <thead><tr><th>Proyecto</th><th>Avance (%)</th><th>Fecha de corte</th></tr></thead>
+  <tbody>
+    <tr><td>Sistema Contable</td><td>75%</td><td>2025-10-15</td></tr>
+    <tr><td>App de Ventas</td><td>100%</td><td>2025-09-30</td></tr>
+    <tr><td>CRM PYMES</td><td>40%</td><td>2025-10-20</td></tr>
+  </tbody>
+</table>
+</div>

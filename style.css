@@ -1,0 +1,514 @@
+/* ======== ESTILOS GLOBALES ======== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #f0f8f0; /* Verde pastel muy claro */
+    color: #2d3748;
+    margin: 0;
+    line-height: 1.8;
+}
+
+/* ======== BARRA DE LOGIN SUPERIOR ======== */
+.login-bar {
+    background-color: #c6f6d5; /* Verde pastel suave */
+    padding: 10px 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    border-bottom: 2px solid #9ae6b4; /* Verde pastel medio */
+    height: 60px;
+    width: 100%;
+}
+
+.login-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.login-form input {
+    padding: 8px 12px;
+    border: 1px solid #9ae6b4;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 150px;
+    background-color: white;
+}
+
+.login-form input:focus {
+    outline: none;
+    border-color: #68d391; /* Verde pastel más intenso */
+    box-shadow: 0 0 0 3px rgba(104, 211, 145, 0.2);
+}
+
+.login-form button {
+    background-color: #68d391; /* Verde pastel */
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.login-form button:hover {
+    background-color: #48bb78; /* Verde pastel más oscuro */
+}
+
+.user-info {
+    display: none; /* Cambiado de 'flex' a 'none' por defecto */
+    align-items: center;
+    gap: 15px;
+}
+
+.user-info span {
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.user-info button {
+    background-color: #fc8181; /* Rojo pastel */
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.user-info button:hover {
+    background-color: #f56565;
+}
+
+.login-message {
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    /* Nuevas propiedades para controlar la visibilidad */
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    max-width: 300px;
+    word-wrap: break-word;
+}
+
+/* Mostrar solo cuando hay contenido */
+.login-message:not(:empty) {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* ======== CONTENIDO PRINCIPAL (sidebar + main) ======== */
+.content-container {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    width: 100%;
+}
+
+/* ======== MENÚ LATERAL ======== */
+.sidebar {
+    width: 250px;
+    background-color: #9ae6b4; /* Verde pastel medio */
+    color: #2d3748;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+    flex-shrink: 0;
+    border-right: 2px solid #68d391;
+}
+
+.sidebar img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto 20px;
+    border: 3px solid #68d391;
+}
+
+.sidebar h2 {
+    font-size: 22px;
+    margin-bottom: 25px;
+    text-align: center;
+    color: #2d3748;
+    font-weight: 700;
+}
+
+.menu a {
+    color: #2d3748;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    padding: 15px 25px;
+    text-align: left;
+    transition: all 0.3s;
+    font-weight: 500;
+    border-left: 4px solid transparent;
+}
+
+.menu a:hover, .menu a.active {
+    background-color: #c6f6d5; /* Verde pastel claro */
+    border-left: 4px solid #38a169; /* Verde más intenso */
+    color: #22543d;
+}
+
+.menu a.protected {
+    background-color: rgba(154, 230, 180, 0.3); /* Verde pastel semi-transparente */
+}
+
+/* ======== CONTENIDO PRINCIPAL ======== */
+.main-content {
+    flex: 1;
+    padding: 25px;
+    overflow-y: auto;
+    background-color: #f7faf7; /* Fondo verde pastel muy claro */
+}
+
+.header {
+    background-color: #9ae6b4; /* Verde pastel medio */
+    color: #2d3748;
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-size: 20px;
+    margin-bottom: 25px;
+    border: 1px solid #68d391;
+    font-weight: 700;
+}
+
+.content {
+    background-color: white;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    border: 1px solid #e2e8f0;
+}
+
+.content h3 {
+    color: #22543d; /* Verde pastel oscuro */
+    margin-bottom: 15px;
+}
+
+.hidden {
+    display: none;
+}
+
+/* ======== SECCIÓN INICIO ======== */
+.inicio-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 25px;
+}
+
+.inicio-texto {
+    flex: 1 1 400px;
+}
+
+.inicio-imagen {
+    flex: 1 1 300px;
+    text-align: right;
+}
+
+.inicio-imagen img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+    background-color: white;
+    padding: 10px;
+}
+
+/* Responsive */
+@media (max-width: 800px) {
+    body {
+        flex-direction: column;
+    }
+
+    .content-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 10px 0;
+    }
+
+    .sidebar img {
+        width: 60px;
+        height: 60px;
+        margin: 0;
+    }
+
+    .menu a {
+        text-align: center;
+        padding: 10px;
+    }
+
+    .inicio-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .inicio-imagen {
+        text-align: center;
+    }
+}
+
+/* ======== Reportes ======== */
+.Report h3 {
+    color: #22543d;
+}
+
+/* ======== Recursos ======== */
+.recursos h3 {
+    color: #22543d;
+}
+
+/* ======== FORMULARIO USUARIOS ======== */
+.contenedor {
+    max-width: 100%;
+    padding: 25px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    margin-top: 15px;
+}
+
+h1 {
+    color: #22543d; /* Verde pastel oscuro */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    color: #38a169; /* Verde pastel */
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    border: 1.5px solid #c6f6d5;
+    border-radius: 6px;
+    font-size: 15px;
+    transition: border-color 0.3s;
+    background-color: #f0fff4;
+}
+
+input:valid, select:valid {
+    border-color: #68d391; /* Verde pastel */
+}
+
+.error {
+    border-color: #fc8181 !important;
+    background-color: #fed7d7;
+}
+
+button {
+    background-color: #68d391; /* Verde pastel */
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #48bb78; /* Verde pastel más oscuro */
+}
+
+/* Mensajes de validación */
+.mensaje {
+    text-align: center;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    background-color: #f0fff4;
+    border: 1px solid #c6f6d5;
+}
+
+/* ======== PORTAFOLIO DE ÉXITOS ======== */
+.portafolio-container {
+    padding: 30px;
+    color: #333;
+}
+
+.portafolio-container h2 {
+    text-align: left;
+    color: #22543d;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    margin-left: 20px;
+}
+
+.intro-text, .intro-subtext {
+    text-align: left;
+    max-width: 800px;
+    margin: 10px 20px;
+    color: #4a5568;
+    line-height: 1.6;
+}
+
+.servicio, .caso-exito {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #c6f6d5; /* Verde pastel */
+    border-radius: 12px;
+    padding: 20px;
+    margin: 25px 0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.servicio:hover, .caso-exito:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+.servicio-texto h4, .caso-texto h4 {
+    color: #22543d;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.servicio-texto p, .caso-texto p {
+    color: #4a5568;
+    line-height: 1.6;
+}
+
+.servicio-imagen img, .caso-imagen img {
+    max-width: 300px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+}
+
+.servicio-imagen img:hover, .caso-imagen img:hover {
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .portafolio-container h2 {
+        text-align: center;
+        margin-left: 0;
+    }
+
+    .intro-text, .intro-subtext {
+        text-align: center;
+        margin: 10px auto;
+    }
+
+    .servicio, .caso-exito {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .servicio-imagen, .caso-imagen {
+        text-align: center;
+        margin-top: 15px;
+    }
+}
+
+/* ======== TÍTULOS ======== */
+h1, h2, h3, h4 {
+    text-align: left;
+    font-weight: 700;
+    margin: 15px 0 10px 20px;
+    color: #22543d;
+}
+
+h2 {
+    font-size: 2rem;
+}
+h1 {
+    font-size: 2rem;
+}
+h3 {
+    font-size: 1.6rem;
+}
+h4 {
+    font-size: 1.4rem;
+}
+
+/* ======== LEGIBILIDAD GENERAL ======== */
+body, p, li, label {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #2d3748;
+}
+
+.content {
+    padding: 25px;
+}
+
+.inicio-texto, .servicio-texto, .caso-texto {
+    text-align: left;
+}
+
+.intro-text, .intro-subtext {
+    text-align: left;
+    max-width: 800px;
+    margin-left: 20px;
+    color: #4a5568;
+}
+
+/* Títulos específicos */
+.inicio-texto h3,
+#usuarios h1,
+#recursos h3,
+#reportes h3 {
+    font-size: 2rem;
+    font-weight: 900;
+    text-align: left;
+    color: #22543d;
+    margin: 15px 0 10px 20px;
+}
+
+.success {
+    color: #22543d;
+    background-color: #c6f6d5;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 10px;
+}
+
+.error {
+    color: #c53030;
+    background-color: #fed7d7;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 10px;
+}

@@ -1,0 +1,668 @@
+<div class="contenedor-proyectos">
+    <h1>📊 Gestión de Proyectos</h1>
+    
+    <!-- Pestañas -->
+    <div class="tabs" style="display: flex; border-bottom: 2px solid #c6f6d5; margin-bottom: 20px;">
+        <button id="tabLista" class="tab-btn active" onclick="mostrarTab('lista')" style="flex: 1; padding: 10px; border: none; background: none; cursor: pointer; border-bottom: 3px solid #68d391;">📋 Lista de Proyectos</button>
+        <button id="tabNuevo" class="tab-btn" onclick="mostrarTab('nuevo')" style="flex: 1; padding: 10px; border: none; background: none; cursor: pointer;">➕ Nuevo Proyecto</button>
+        <button id="tabEditar" class="tab-btn" onclick="mostrarTab('editar')" style="flex: 1; padding: 10px; border: none; background: none; cursor: pointer; display: none;">✏️ Editar Proyecto</button>
+    </div>
+    
+    <!-- Mensajes -->
+    <div id="mensajeProyecto" class="mensaje-proyecto"></div>
+    
+    <!-- TAB 1: Lista de proyectos con progreso -->
+    <div id="tabListaContent" class="tab-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h3>Proyectos Activos</h3>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="buscarProyecto" placeholder="Buscar proyecto..." style="padding: 8px; border: 1px solid #c6f6d5; border-radius: 6px;">
+                <button onclick="filtrarProyectos()" class="btn-secondary">🔍 Buscar</button>
+            </div>
+        </div>
+        
+        <div id="listaProyectos" style="margin-top: 10px;"></div>
+    </div>
+    
+    <!-- TAB 2: Formulario nuevo proyecto -->
+    <div id="tabNuevoContent" class="tab-content" style="display: none;">
+        <h3>Crear Nuevo Proyecto</h3>
+        
+        <form id="formProyectoNuevo">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="codigo">Código:</label>
+                    <input type="text" id="codigo" name="codigo" placeholder="PROY-2024-001">
+                </div>
+                
+                <div class="form-group">
+                    <label for="nombre">Nombre:*</label>
+                    <input type="text" id="nombre" name="nombre" required placeholder="Nombre del proyecto">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="descripcion">Descripción:</label>
+                <textarea id="descripcion" name="descripcion" rows="3" placeholder="Objetivos del proyecto..."></textarea>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="fecha_inicio">Fecha Inicio:</label>
+                    <input type="date" id="fecha_inicio" name="fecha_inicio">
+                </div>
+                
+                <div class="form-group">
+                    <label for="fecha_fin">Fecha Fin:</label>
+                    <input type="date" id="fecha_fin" name="fecha_fin">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="presupuesto">Presupuesto ($):*</label>
+                    <input type="number" id="presupuesto" name="presupuesto" required step="0.01" placeholder="0.00">
+                </div>
+                
+                <div class="form-group">
+                    <label for="estado">Estado:*</label>
+                    <select id="estado" name="estado" required>
+                        <option value="">Seleccionar</option>
+                        <option value="Planificado">Planificado</option>
+                        <option value="En progreso">En progreso</option>
+                        <option value="Completado">Completado</option>
+                        <option value="Cancelado">Cancelado</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-buttons">
+                <button type="submit" class="btn-primary">💾 Guardar Proyecto</button>
+                <button type="button" class="btn-secondary" onclick="limpiarFormulario()">🗑️ Limpiar</button>
+            </div>
+        </form>
+    </div>
+    
+    <!-- TAB 3: Editar proyecto -->
+    <div id="tabEditarContent" class="tab-content" style="display: none;">
+        <h3>Editar Proyecto <span id="codigoProyectoEditando"></span></h3>
+        
+        <form id="formEditarProyecto">
+            <input type="hidden" id="proyecto_id_editar">
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="codigo_editar">Código:</label>
+                    <input type="text" id="codigo_editar" name="codigo_editar">
+                </div>
+                
+                <div class="form-group">
+                    <label for="nombre_editar">Nombre:*</label>
+                    <input type="text" id="nombre_editar" name="nombre_editar" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="descripcion_editar">Descripción:</label>
+                <textarea id="descripcion_editar" name="descripcion_editar" rows="3"></textarea>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="fecha_inicio_editar">Fecha Inicio:</label>
+                    <input type="date" id="fecha_inicio_editar" name="fecha_inicio_editar">
+                </div>
+                
+                <div class="form-group">
+                    <label for="fecha_fin_editar">Fecha Fin:</label>
+                    <input type="date" id="fecha_fin_editar" name="fecha_fin_editar">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="presupuesto_editar">Presupuesto ($):*</label>
+                    <input type="number" id="presupuesto_editar" name="presupuesto_editar" required step="0.01">
+                </div>
+                
+                <div class="form-group">
+                    <label for="estado_editar">Estado:*</label>
+                    <select id="estado_editar" name="estado_editar" required>
+                        <option value="Planificado">Planificado</option>
+                        <option value="En progreso">En progreso</option>
+                        <option value="Completado">Completado</option>
+                        <option value="Cancelado">Cancelado</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Sección de progreso -->
+            <div style="background: #f0fff4; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                <h4>📈 Progreso del Proyecto</h4>
+                <div id="infoProgreso">
+                    <p>Cargando información de progreso...</p>
+                </div>
+            </div>
+            
+            <div class="form-buttons">
+                <button type="submit" class="btn-primary">💾 Guardar Cambios</button>
+                <button type="button" class="btn-secondary" onclick="mostrarTab('lista')">← Volver a Lista</button>
+                <button type="button" class="btn-secondary" onclick="eliminarProyecto()" style="background-color: #fc8181;">🗑️ Eliminar Proyecto</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+// ==================== FUNCIONES ESPECÍFICAS PARA ESTE HTML ====================
+
+// Variables globales
+let proyectosData = [];
+let proyectoEditando = null;
+
+// Cuando se carga la página
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('✅ Módulo de proyectos - Diseño mejorado cargado');
+    
+    // 1. Configurar formulario nuevo proyecto (DIFERENTE ID)
+    const formNuevo = document.getElementById('formProyectoNuevo');
+    if (formNuevo) {
+        console.log('Formulario nuevo encontrado, configurando...');
+        formNuevo.addEventListener('submit', function(event) {
+            event.preventDefault();
+            crearProyectoNuevo(event);
+        });
+    } else {
+        console.error('❌ NO se encontró formProyectoNuevo');
+    }
+    
+    // 2. Configurar formulario editar proyecto
+    const formEditar = document.getElementById('formEditarProyecto');
+    if (formEditar) {
+        formEditar.addEventListener('submit', function(event) {
+            event.preventDefault();
+            guardarEdicionProyecto(event);
+        });
+    }
+    
+    // 3. Establecer fecha mínima en los datepickers
+    const hoy = new Date().toISOString().split('T')[0];
+    const fechaInicio = document.getElementById('fecha_inicio');
+    const fechaFin = document.getElementById('fecha_fin');
+    if (fechaInicio) fechaInicio.min = hoy;
+    if (fechaFin) fechaFin.min = hoy;
+    
+    // 4. Cargar proyectos inicialmente
+    cargarProyectos();
+});
+
+// ==================== FUNCIONES DE PESTAÑAS ====================
+function mostrarTab(tab) {
+    console.log('Mostrando pestaña:', tab);
+    
+    // Ocultar todos los contenidos
+    document.getElementById('tabListaContent').style.display = 'none';
+    document.getElementById('tabNuevoContent').style.display = 'none';
+    document.getElementById('tabEditarContent').style.display = 'none';
+    
+    // Desactivar todos los botones
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.style.borderBottom = 'none';
+    });
+    
+    // Mostrar la pestaña seleccionada
+    if (tab === 'lista') {
+        document.getElementById('tabListaContent').style.display = 'block';
+        document.getElementById('tabLista').classList.add('active');
+        document.getElementById('tabLista').style.borderBottom = '3px solid #68d391';
+        document.getElementById('tabEditar').style.display = 'none';
+        cargarProyectos();
+    } 
+    else if (tab === 'nuevo') {
+        document.getElementById('tabNuevoContent').style.display = 'block';
+        document.getElementById('tabNuevo').classList.add('active');
+        document.getElementById('tabNuevo').style.borderBottom = '3px solid #68d391';
+        document.getElementById('tabEditar').style.display = 'none';
+    }
+    else if (tab === 'editar') {
+        document.getElementById('tabEditarContent').style.display = 'block';
+        document.getElementById('tabEditar').classList.add('active');
+        document.getElementById('tabEditar').style.borderBottom = '3px solid #68d391';
+        document.getElementById('tabEditar').style.display = 'block';
+    }
+}
+
+// ==================== FUNCIONES DE PROYECTOS ====================
+async function cargarProyectos() {
+    try {
+        console.log('Solicitando proyectos al API...');
+        const response = await fetch('/api/proyectos');
+        
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        
+        proyectosData = await response.json();
+        console.log('Proyectos recibidos:', proyectosData);
+        
+        const container = document.getElementById('listaProyectos');
+        if (!container) {
+            console.error('Contenedor listaProyectos no encontrado');
+            return;
+        }
+        
+        if (!proyectosData || proyectosData.length === 0) {
+            container.innerHTML = '<p style="color: #718096; text-align: center; padding: 20px;">No hay proyectos registrados.</p>';
+            return;
+        }
+        
+        let html = '';
+        for (const proyecto of proyectosData) {
+            // Obtener progreso del proyecto
+            const progresoData = await obtenerProgresoProyecto(proyecto.proyecto_id);
+            const progreso = progresoData.progresoGeneral || 0;
+            
+            // Determinar color según estado
+            let estadoColor = '#68d391'; // verde
+            if (proyecto.estado === 'En progreso') estadoColor = '#d69e2e'; // amarillo
+            if (proyecto.estado === 'Completado') estadoColor = '#22543d'; // verde oscuro
+            if (proyecto.estado === 'Cancelado') estadoColor = '#718096'; // gris
+            
+            // Formatear fechas
+            const fechaInicio = proyecto.fecha_inicio ? new Date(proyecto.fecha_inicio).toLocaleDateString('es-ES') : 'No definida';
+            const fechaFin = proyecto.fecha_fin ? new Date(proyecto.fecha_fin).toLocaleDateString('es-ES') : 'No definida';
+            const presupuesto = proyecto.presupuesto ? parseFloat(proyecto.presupuesto).toFixed(2) : '0.00';
+            
+            html += `
+                <div class="proyecto-card" style="background: white; border: 1px solid #c6f6d5; border-radius: 8px; padding: 15px; margin-bottom: 12px; cursor: pointer;" 
+                     onclick="editarProyecto(${proyecto.proyecto_id})">
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div style="flex: 1;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-weight: bold; color: #22543d;">${proyecto.codigo || 'SIN-COD'}</span>
+                                <span style="background-color: ${estadoColor}; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px;">
+                                    ${proyecto.estado || 'Planificado'}
+                                </span>
+                            </div>
+                            
+                            <h4 style="margin: 8px 0; color: #2d3748;">${proyecto.nombre}</h4>
+                            
+                            ${proyecto.descripcion ? 
+                                `<p style="color: #718096; font-size: 14px; margin-bottom: 8px;">${proyecto.descripcion.substring(0, 120)}${proyecto.descripcion.length > 120 ? '...' : ''}</p>` 
+                                : ''}
+                        </div>
+                        
+                        <div style="text-align: right;">
+                            <div style="font-size: 18px; color: #22543d; font-weight: bold;">$${presupuesto}</div>
+                            <div style="font-size: 12px; color: #718096;">Presupuesto</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Barra de progreso -->
+                    <div style="margin-top: 12px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="font-size: 12px; color: #718096;">Progreso: ${progreso}%</span>
+                            <span style="font-size: 12px; color: #718096;">${progresoData.tareasCompletadas || 0} de ${progresoData.totalTareas || 0} tareas</span>
+                        </div>
+                        <div style="background: #e2e8f0; height: 6px; border-radius: 3px; overflow: hidden;">
+                            <div style="background: #68d391; height: 100%; width: ${progreso}%; border-radius: 3px;"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Información adicional -->
+                    <div style="display: flex; justify-content: space-between; margin-top: 12px; font-size: 12px; color: #718096;">
+                        <div>
+                            <span>📅 Inicio: ${fechaInicio}</span>
+                            <span style="margin-left: 15px;">🏁 Fin: ${fechaFin}</span>
+                        </div>
+                        <button onclick="event.stopPropagation(); verDetalles(${proyecto.proyecto_id})" style="background: none; border: 1px solid #c6f6d5; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px;">
+                            👁️ Ver detalles
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        container.innerHTML = html;
+    } catch (error) {
+        console.error('Error cargando proyectos:', error);
+        const container = document.getElementById('listaProyectos');
+        if (container) {
+            container.innerHTML = '<p style="color: #c53030; text-align: center;">Error al cargar proyectos: ' + error.message + '</p>';
+        }
+    }
+}
+
+async function obtenerProgresoProyecto(proyectoId) {
+    try {
+        const response = await fetch(`/api/proyectos/${proyectoId}/progreso`);
+        if (!response.ok) return { progresoGeneral: 0, tareasCompletadas: 0, totalTareas: 0 };
+        return await response.json();
+    } catch (error) {
+        return { progresoGeneral: 0, tareasCompletadas: 0, totalTareas: 0 };
+    }
+}
+
+// ==================== CREAR NUEVO PROYECTO ====================
+async function crearProyectoNuevo(event) {
+    event.preventDefault();
+    console.log('🚀 CREANDO NUEVO PROYECTO...');
+    
+    const form = event.target;
+    const mensaje = document.getElementById('mensajeProyecto');
+    
+    // Validar campos
+    const nombre = document.getElementById('nombre').value.trim();
+    const presupuesto = document.getElementById('presupuesto').value;
+    const estado = document.getElementById('estado').value;
+    
+    if (!nombre || !presupuesto || !estado) {
+        mostrarMensaje('Por favor complete los campos obligatorios', 'error');
+        return;
+    }
+    
+    if (parseFloat(presupuesto) <= 0) {
+        mostrarMensaje('El presupuesto debe ser mayor a 0', 'error');
+        return;
+    }
+    
+    // Obtener datos del formulario
+    const proyectoData = {
+        codigo: document.getElementById('codigo').value.trim() || null,
+        nombre: nombre,
+        descripcion: document.getElementById('descripcion').value.trim() || null,
+        fecha_inicio: document.getElementById('fecha_inicio').value || null,
+        fecha_fin: document.getElementById('fecha_fin').value || null,
+        presupuesto: parseFloat(presupuesto),
+        estado: estado
+    };
+    
+    console.log('📤 Enviando datos:', proyectoData);
+    mostrarMensaje('Creando proyecto...', 'info');
+    
+    try {
+        const response = await fetch('/api/proyectos', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(proyectoData)
+        });
+        
+        console.log('📥 Respuesta recibida, status:', response.status);
+        
+        const data = await response.json();
+        console.log('📊 Datos recibidos:', data);
+        
+        if (response.ok) {
+            mostrarMensaje(`✅ Proyecto "${proyectoData.nombre}" creado exitosamente`, 'success');
+            form.reset();
+            mostrarTab('lista');
+            await cargarProyectos();
+        } else {
+            mostrarMensaje(`❌ Error: ${data.error || 'Error al crear proyecto'}`, 'error');
+        }
+    } catch (error) {
+        console.error('❌ Error completo:', error);
+        mostrarMensaje('❌ Error de conexión con el servidor', 'error');
+    }
+}
+
+// ==================== EDITAR PROYECTO ====================
+async function editarProyecto(proyectoId) {
+    try {
+        console.log('Editando proyecto ID:', proyectoId);
+        
+        // Buscar proyecto en los datos cargados
+        const proyecto = proyectosData.find(p => p.proyecto_id == proyectoId);
+        if (!proyecto) {
+            mostrarMensaje('Proyecto no encontrado', 'error');
+            return;
+        }
+        
+        proyectoEditando = proyecto;
+        
+        // Llenar formulario de edición
+        document.getElementById('proyecto_id_editar').value = proyecto.proyecto_id;
+        document.getElementById('codigo_editar').value = proyecto.codigo || '';
+        document.getElementById('nombre_editar').value = proyecto.nombre;
+        document.getElementById('descripcion_editar').value = proyecto.descripcion || '';
+        document.getElementById('fecha_inicio_editar').value = proyecto.fecha_inicio ? proyecto.fecha_inicio.split('T')[0] : '';
+        document.getElementById('fecha_fin_editar').value = proyecto.fecha_fin ? proyecto.fecha_fin.split('T')[0] : '';
+        document.getElementById('presupuesto_editar').value = proyecto.presupuesto || 0;
+        document.getElementById('estado_editar').value = proyecto.estado || 'Planificado';
+        
+        // Mostrar código en el título
+        document.getElementById('codigoProyectoEditando').textContent = proyecto.codigo ? `(${proyecto.codigo})` : '';
+        
+        // Cargar información de progreso
+        await cargarInfoProgreso(proyectoId);
+        
+        // Mostrar pestaña de edición
+        mostrarTab('editar');
+        
+    } catch (error) {
+        console.error('Error cargando proyecto para editar:', error);
+        mostrarMensaje('Error al cargar proyecto', 'error');
+    }
+}
+
+async function cargarInfoProgreso(proyectoId) {
+    try {
+        const response = await fetch(`/api/proyectos/${proyectoId}/progreso`);
+        if (!response.ok) throw new Error('Error obteniendo progreso');
+        
+        const data = await response.json();
+        const container = document.getElementById('infoProgreso');
+        
+        // Calcular días restantes/retraso
+        let infoTiempo = '';
+        if (proyectoEditando.fecha_fin) {
+            const hoy = new Date();
+            const fechaFin = new Date(proyectoEditando.fecha_fin);
+            const diffDias = Math.ceil((fechaFin - hoy) / (1000 * 60 * 60 * 24));
+            
+            if (diffDias < 0) {
+                infoTiempo = `<span style="color: #c53030;">⚠️ <strong>Retraso:</strong> ${Math.abs(diffDias)} días</span>`;
+            } else {
+                infoTiempo = `<span style="color: #22543d;">⏳ <strong>Días restantes:</strong> ${diffDias} días</span>`;
+            }
+        }
+        
+        container.innerHTML = `
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                    <div style="font-size: 12px; color: #718096;">Progreso General</div>
+                    <div style="font-size: 24px; font-weight: bold; color: #22543d;">${data.progresoGeneral}%</div>
+                    <div style="background: #e2e8f0; height: 8px; border-radius: 4px; margin-top: 5px;">
+                        <div style="background: #68d391; height: 100%; width: ${data.progresoGeneral}%; border-radius: 4px;"></div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div style="font-size: 12px; color: #718096;">Tareas</div>
+                    <div style="font-size: 24px; font-weight: bold; color: #22543d;">${data.tareasCompletadas}/${data.totalTareas}</div>
+                    <div style="margin-top: 5px;">${infoTiempo}</div>
+                </div>
+            </div>
+            
+            ${data.tareas && data.tareas.length > 0 ? `
+                <div style="margin-top: 15px;">
+                    <div style="font-size: 12px; color: #718096; margin-bottom: 5px;">Últimas tareas:</div>
+                    ${data.tareas.slice(0, 3).map(tarea => `
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid #e2e8f0;">
+                            <span>${tarea.nombre}</span>
+                            <span style="font-size: 12px; color: ${tarea.porcentaje_avance === 100 ? '#22543d' : '#d69e2e'}">
+                                ${tarea.porcentaje_avance}%
+                            </span>
+                        </div>
+                    `).join('')}
+                </div>
+            ` : '<p style="color: #718096; text-align: center;">No hay tareas registradas</p>'}
+        `;
+        
+    } catch (error) {
+        document.getElementById('infoProgreso').innerHTML = 
+            '<p style="color: #718096;">No se pudo cargar la información de progreso</p>';
+    }
+}
+
+async function guardarEdicionProyecto(event) {
+    event.preventDefault();
+    
+    const mensaje = document.getElementById('mensajeProyecto');
+    const proyectoId = document.getElementById('proyecto_id_editar').value;
+    
+    // Validar campos
+    const nombre = document.getElementById('nombre_editar').value.trim();
+    const presupuesto = document.getElementById('presupuesto_editar').value;
+    
+    if (!nombre || !presupuesto) {
+        mostrarMensaje('Nombre y presupuesto son obligatorios', 'error');
+        return;
+    }
+    
+    const proyectoData = {
+        proyecto_id: proyectoId,
+        codigo: document.getElementById('codigo_editar').value.trim() || null,
+        nombre: nombre,
+        descripcion: document.getElementById('descripcion_editar').value.trim() || null,
+        fecha_inicio: document.getElementById('fecha_inicio_editar').value || null,
+        fecha_fin: document.getElementById('fecha_fin_editar').value || null,
+        presupuesto: parseFloat(presupuesto),
+        estado: document.getElementById('estado_editar').value
+    };
+    
+    mostrarMensaje('Guardando cambios...', 'info');
+    
+    try {
+        const response = await fetch(`/api/proyectos/${proyectoId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(proyectoData)
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            mostrarMensaje(`✅ Proyecto "${proyectoData.nombre}" actualizado correctamente`, 'success');
+            mostrarTab('lista');
+            cargarProyectos();
+        } else {
+            mostrarMensaje(`❌ Error: ${data.error || 'Error al actualizar'}`, 'error');
+        }
+    } catch (error) {
+        console.error('Error actualizando proyecto:', error);
+        mostrarMensaje('❌ Error de conexión', 'error');
+    }
+}
+
+async function eliminarProyecto() {
+    const proyectoId = document.getElementById('proyecto_id_editar').value;
+    const nombreProyecto = document.getElementById('nombre_editar').value;
+    
+    if (!confirm(`¿Está seguro de eliminar el proyecto "${nombreProyecto}"? Esta acción no se puede deshacer.`)) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/api/proyectos/${proyectoId}`, {
+            method: 'DELETE'
+        });
+        
+        if (response.ok) {
+            mostrarMensaje('✅ Proyecto eliminado correctamente', 'success');
+            mostrarTab('lista');
+            cargarProyectos();
+        } else {
+            mostrarMensaje('❌ Error al eliminar proyecto', 'error');
+        }
+    } catch (error) {
+        console.error('Error eliminando proyecto:', error);
+        mostrarMensaje('❌ Error de conexión', 'error');
+    }
+}
+
+// ==================== FUNCIONES AUXILIARES ====================
+function limpiarFormulario() {
+    document.getElementById('formProyectoNuevo').reset();
+    mostrarMensaje('Formulario limpiado', 'info');
+}
+
+function mostrarMensaje(texto, tipo) {
+    const mensaje = document.getElementById('mensajeProyecto');
+    mensaje.textContent = texto;
+    mensaje.className = 'mensaje-proyecto';
+    
+    if (tipo === 'error') {
+        mensaje.classList.add('mensaje-error');
+    } else if (tipo === 'success') {
+        mensaje.classList.add('mensaje-success');
+    } else {
+        mensaje.classList.add('mensaje-info');
+    }
+    
+    // Ocultar mensaje después de 5 segundos
+    setTimeout(() => {
+        mensaje.textContent = '';
+        mensaje.className = 'mensaje-proyecto';
+    }, 5000);
+}
+
+function verDetalles(proyectoId) {
+    event.stopPropagation();
+    alert('Función de detalles del proyecto - Aquí podrías mostrar más información detallada');
+}
+</script>
+
+<style>
+.tab-btn.active {
+    font-weight: bold;
+    color: #22543d;
+}
+
+.proyecto-card:hover {
+    background-color: #f7faf7 !important;
+    border-color: #68d391 !important;
+    transform: translateY(-2px);
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-primary, .btn-secondary {
+    padding: 12px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    flex: 1;
+}
+
+.btn-primary {
+    background-color: #68d391;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #48bb78;
+}
+
+.btn-secondary {
+    background-color: #c6f6d5;
+    color: #22543d;
+    border: 1px solid #9ae6b4;
+}
+
+.btn-secondary:hover {
+    background-color: #9ae6b4;
+}
+</style>

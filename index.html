@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DUNAMIS - Sistema de Gestión de Proyectos</title>
+  
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <!-- Archivos CSS adicionales -->
+  <link rel="stylesheet" href="proyectos.css">
+
+  <!-- Archivos JS adicionales -->
+</head>
+<body>
+  <!-- BARRA DE LOGIN SUPERIOR -->
+  <div class="login-bar">
+    <div class="login-form" id="loginFormContainer">
+      <input type="text" id="loginUsername" placeholder="Usuario">
+      <input type="password" id="loginPassword" placeholder="Contraseña">
+      <button onclick="iniciarSesion()">Ingresar</button>
+      <div id="loginMessage" class="login-message"></div>
+    </div>
+    <div class="user-info" id="userInfoContainer" style="display: none;">
+      <span id="userNameDisplay"></span>
+      <button onclick="cerrarSesion()">Salir</button>
+    </div>
+  </div>
+
+  <!-- CONTENEDOR PRINCIPAL CON SIDEBAR Y CONTENIDO -->
+  <div class="content-container">
+    <!-- MENÚ LATERAL -->
+    <div class="sidebar">
+      <img src="imagenes/logo.png" alt="Logo DUNAMIS">
+      <h2>DUNAMIS</h2>
+      <div class="menu">
+        <a href="#" class="active" onclick="showScreen(event, 'inicio')">🏠 Inicio</a>
+        <a href="#" onclick="showScreen(event, 'portafolio')">📂 Portafolio de Éxitos</a>
+        
+        <!-- ESTAS SECCIONES SOLO SE VEN DESPUÉS DE LOGIN -->
+        <a href="#" class="protected" onclick="showScreen(event, 'usuario')" style="display: none;">👤 Gestión de Usuarios</a>
+        <a href="#" class="protected" onclick="showScreen(event, 'crearReportes')" style="display: none;"> 📋 Gestión de Proyectos</a>
+        <a href="#" class="protected" onclick="showScreen(event, 'recursos')" style="display: none;">🛠️ Gestión de Recursos</a>
+        <a href="#" class="protected" onclick="showScreen(event, 'reportes')" style="display: none;">📊 Creación de Reportes</a>
+      </div>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="main-content">
+      <div class="header">Sistema de Gestión de Proyectos DUNAMIS</div>
+      <div id="contenido" class="content"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="Proyectos.js"></script>
+</body>
+</html>

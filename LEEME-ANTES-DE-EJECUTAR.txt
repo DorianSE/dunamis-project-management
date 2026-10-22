@@ -1,0 +1,13 @@
+DUNAMIS - versión corregida para SQL Server con autenticación integrada de Windows
+
+1. Descomprima toda la carpeta en una ubicación local.
+2. Verifique que SQL Server esté iniciado y que la base pyme_sys exista en el servidor DORIAN.
+3. La conexión usa la cuenta de Windows que ejecuta el programa. Esa cuenta debe tener permisos sobre pyme_sys. No se guarda una contraseña SQL en el código.
+4. Ejecute iniciar.bat. El archivo instalará dependencias si no están instaladas y luego iniciará el servidor.
+5. Abra http://localhost:3001/api/health. Si responde ok:true, la conexión a SQL Server funciona. Si responde ok:false, lea el detalle que aparece en la consola de Node y verifique el controlador ODBC de SQL Server y los permisos de Windows.
+6. Abra http://localhost:3001 e intente iniciar sesión con un usuario activo existente de la tabla usuarios.
+
+IMPORTANTE:
+- El proyecto no puede conectarse a la base de datos de otra computadora si SQL Server no está accesible desde esta PC.
+- No se cambia automáticamente la contraseña de admin. Debe utilizarse la contraseña que ya tenga configurada en la base pyme_sys.
+- La conexión real debe comprobarse en el equipo donde está instalado SQL Server; el paquete se puede revisar sintácticamente, pero este entorno no tiene acceso a su instancia local DORIAN.

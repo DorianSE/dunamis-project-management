@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "msnodesqlv8": "^4.5.0",
+    "mssql": "^12.7.10",
+    "multer": "^2.0.2"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js && node --check db.js && node --check routes/users.js && node --check routes/roles.js && node --check routes/clientes.js && node --check routes/proyectos.js && node --check routes/ajustes.js"
+  }
+}

@@ -1,0 +1,32 @@
+<div class="recursos"> 
+  <h3>Gestión de Recursos</h3>
+  <p>Registre los recursos necesarios para cada proyecto, asegurando que no se dupliquen ni se sobreasignen.</p>
+
+  <h4>Asignar Recursos a Proyecto</h4>
+  <form id="formAsignar">
+    <label for="proyecto">Proyecto:</label>
+    <select id="proyectoAsignar">
+      <option value="">Seleccione proyecto</option>
+      <option value="Proyecto A">Proyecto A</option>
+      <option value="Proyecto B">Proyecto B</option>
+      <option value="Proyecto C">Proyecto C</option>
+    </select>
+
+    <label for="recurso">Recurso:</label>
+    <select id="recursoAsignar">
+      <option value="">Seleccione recurso</option>
+      <option value="Laptop">Laptop</option>
+      <option value="Silla">Silla</option>
+      <option value="Software">Software</option>
+    </select>
+
+    <label for="cantidad">Cantidad:</label>
+    <input type="number" id="cantidadAsignar" min="1">
+
+    <button type="button" onclick="asignarRecurso()">Asignar</button>
+    <button type="button" onclick="eliminarRecurso()">Eliminar</button>
+  </form>
+
+  <div id="mensajeAsignar"></div>
+</div>
+
