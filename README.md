@@ -38,3 +38,32 @@ Dorian
 Estudiante de Ingeniería en Software
 
 Universidad Internacional de las Américas (UIA)
+
+
+
+
+
+📸 Capturas del Sistema
+🔐 Inicio de Sesión
+Ingreso de usuario administrador
+
+🏠 Pantalla Principal
+Pantalla inicio
+
+👥 Gestión de Usuarios
+Gestión de Usuarios
+
+📋 Gestión de Proyectos
+Gestión de Proyectos
+
+📁 Administración de Proyectos
+Proyectos
+
+📊 Creación de Reportes
+Creación de Reportes
+
+🏆 Portafolio de Éxitos
+Portafolio de Éxitos
+
+👤 Usuario de Ejemplo
+Usuario de Ejemplo
