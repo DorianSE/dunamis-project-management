@@ -1,3 +1,22 @@
+📊 DUNAMIS - Sistema de Gestión de Proyectos
+Sistema web desarrollado para la administración de proyectos, usuarios, recursos y reportes.
+
+Tecnologías utilizadas:
+
+Node.js
+Express
+SQL Server
+JavaScript
+HTML
+CSS
+Características:
+
+Autenticación de usuarios
+Gestión de proyectos
+Gestión de usuarios
+Generación de reportes
+Portafolio de éxitos
+🔗 Repositorio: https://github.com/DorianSE/dunamis-project-management
 DUNAMIS - Sistema de Gestión de Proyectos
 Sistema web desarrollado con Node.js, Express y SQL Server para la administración de proyectos, usuarios, recursos y reportes.
 
